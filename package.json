@@ -11,15 +11,17 @@
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-es2017": "^6.22.0",
     "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2"
+    "gulp-babel": "^6.1.2",
+    "webpack": "beta"
   },
   "dependencies": {
     "commander": "^2.9.0"
   },
   "scripts": {
-    "build": "./node_modules/.bin/gulp"
+    "build": "./node_modules/.bin/webpack"
   }
 }

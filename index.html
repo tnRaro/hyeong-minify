@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+	<head>
+		<title>hyeong-minify</title>
+		<script src="lib/bundle.js"></script>
+	</head>
+	<body>
+		<article style="font-family: sans-serif;">
+			<h1>난해한 혀엉... 언어 Minify</h1>
+			<section>
+				<a href="https://gist.github.com/xnuk/d9f883ede568d97caa158255e4b4d069/836a208b5d9fe729eb0d2fd9bf73aec7dc155ffb">난해한 혀엉... 언어 명세</a><br>
+				<a href="https://xnuk.github.io/elmhyeong/">난해한 혀엉... 언어 Elm 구현체</a>(<a href="https://github.com/xnuk/elmhyeong">github</a>)
+			</section>
+			<section>
+				<textarea id="hyeong" style="display: block; font-size: inherit; width: 100%; height: 300px; border: 1px solid black;">
+혀엉..... 흑... 하앗... 흐으으으으으으으으으윽...
+형.... 하앙. 혀어어엉..... 형. 하아앙. 형. 하앙.
+혀엉..... 형. 하아앙. 혀엉..... 하앙. 형... 하앙.
+혀어엉... 형..... 하앗. 혀어엉... 하앙. 형..... 하앙.
+혀엉..... 하앙. 형..... 하앙. 혀엉. 하앙.
+혀어어엉..... 형. 하아앙... 흑. 흣</textarea>
+				<input id="minify" type="button" value="Minify" />
+				<labe>
+					<input id="auto-minify" type="checkbox" />
+					Auto-minify
+				</label>
+				<span id="original-length" style="font-weight: bold;"></span>文字から<span id="result-length" style="font-weight: bold;"></span><span id="delta" style="font-weight: bold; color: red;"></span>文字になりました。
+				<div id="display" style="display: block; font-size: inherit; width: 100%; height: 300px; border: 1px solid black; overflow-wrap: break-word;"></div>
+			</section>
+		</article>
+		<script>
+
+		var $hyeong = document.getElementById("hyeong");
+		var $minify = document.getElementById("minify");
+		var $am = document.getElementById("auto-minify");
+		var $ol = document.getElementById("original-length");
+		var $rl = document.getElementById("result-length");
+		var $delta = document.getElementById("delta");
+		var $display = document.getElementById("display");
+
+		var state = {
+			checked: true,
+			result: ""
+		};
+
+		function setState(next){
+			state = Object.assign({}, state, next);
+
+			update();
+		};
+
+		function update () {
+			$am.checked = state.checked;
+			$display.innerHTML = state.result.result;
+			$ol.innerHTML = state.result.original.length;
+			$rl.innerHTML = state.result.result.length;
+			$delta.innerHTML = "(" + (state.result.result.length - state.result.original.length) + ")";
+
+			console.log(state);
+		};
+
+		$am.addEventListener("change", function(e){
+			setState({
+				checked: e.target.checked
+			});
+		});
+
+		function handler(e){
+			if(state.checked){
+				setState({
+					result: hyeong.minify($hyeong.value)
+				});
+			}
+		}
+
+		$hyeong.addEventListener("change", handler);
+		$hyeong.addEventListener("keyup", handler);
+
+		$minify.addEventListener("click", function(e){
+			setState({
+				result: hyeong.minify($hyeong.value)
+			});
+		});
+
+		// update();
+
+		setState({
+			result: hyeong.minify($hyeong.value)
+		});
+
+		</script>
+	</body>
+</html>
