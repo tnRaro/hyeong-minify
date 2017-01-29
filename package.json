@@ -1,0 +1,25 @@
+{
+  "name": "hyeong-minify",
+  "version": "0.0.1",
+  "description": "hyeong-lang minify",
+  "main": "dist/minify.js",
+  "repository": {
+    "url": "git@github.com:tnRaro/hyeong-minify.git",
+    "type": "git"
+  },
+  "author": "tnRaro <admin@tnraro.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-es2017": "^6.22.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2"
+  },
+  "dependencies": {
+    "commander": "^2.9.0"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/gulp"
+  }
+}
