@@ -2,8 +2,6 @@ import { tokenize } from "./tokenize";
 
 import { createGenerator } from "./generator";
 
-
-
 export const minify = (hyeong, options) => {
 	const generator = createGenerator(options);
 

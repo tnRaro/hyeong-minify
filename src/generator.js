@@ -1,3 +1,5 @@
+import { minimalize } from "./hyeong-min";
+
 const mojiMap = {
 	형: {
 		first: "혀",
@@ -80,8 +82,14 @@ const heart = ({ heart }, {  }) => {
 	return "";
 };
 
+const generate = (token, options) => hangul(token, options)
+					+ ellipsis(token, options)
+					+ heart(token, options);
+
 export const createGenerator = (userOptions = {}) => {
 	const options = {
+		useHyeongMin: false,
+		...userOptions,
 		hangul: {
 			keep: false,
 			...userOptions.hangul
@@ -96,11 +104,20 @@ export const createGenerator = (userOptions = {}) => {
 	if(typeof options.hangul.keep !== "boolean"){
 		throw new Error("options.hangul.keep must be boolean.");
 	}
+	if(typeof options.ellipsis.keep !== "boolean"){
+		throw new Error("options.ellipsis.keep must be boolean.");
+	}
 	if(!/[…⋯⋮]/.test(options.ellipsis.type)){
 		throw new Error("options.ellipsis.type must be '…', '⋯' or '⋮'.");
 	}
+	if(typeof options.useHyeongMin !== "boolean"){
+		throw new Error("options.useHyeongMin must be boolean.");
+	}
 
-	return (token) => hangul(token, options)
-					+ ellipsis(token, options)
-					+ heart(token, options);
+	return (token) => {
+		if(options.useHyeongMin){
+			return generate(minimalize(token, !options.ellipsis.keep), options);
+		}
+		return generate(token, options);
+	};
 };
