@@ -19,28 +19,50 @@
 혀어엉... 형..... 하앗. 혀어엉... 하앙. 형..... 하앙.
 혀엉..... 하앙. 형..... 하앙. 혀엉. 하앙.
 혀어어엉..... 형. 하아앙... 흑. 흣</textarea>
+			</section>
+			<section style="border: 1px solid grey; margin: 10px; padding: 10px; box-sizing: border-box;">
+				<label title="명령어 사이에 있는 문자를 유지합니다.&#10;(예 혀♥엉 -> 혀♥엉)">
+					<input type="checkbox" id="option-hangul-keep" />
+					문자 유지
+				</label>
+				<label title="말줄임표로 .만을 사용합니다. &#10;(예 혀엉… -> 혀엉...)">
+					<input type="checkbox" id="option-ellipsis-keep" />
+					. Only
+				</label>
+				<div style="font-size: 10pt;" title=""><span style="color: red;">경고</span> 일부 설정은 최적한 결과를 가져오지 않을 수 있습니다.</div>
+			</section>
+			<section>
 				<input id="minify" type="button" value="Minify" />
-				<labe>
+				<label>
 					<input id="auto-minify" type="checkbox" />
 					Auto-minify
 				</label>
 				<span id="original-length" style="font-weight: bold;"></span>文字から<span id="result-length" style="font-weight: bold;"></span><span id="delta" style="font-weight: bold; color: red;"></span>文字になりました。
+			</section>
 				<div id="display" style="display: block; font-size: inherit; width: 100%; height: 300px; border: 1px solid black; overflow-wrap: break-word;"></div>
 			</section>
 		</article>
 		<script>
 
 		var $hyeong = document.getElementById("hyeong");
+
+		// options
+		var $ohk = document.getElementById("option-hangul-keep");
+		var $oek = document.getElementById("option-ellipsis-keep");
+
 		var $minify = document.getElementById("minify");
 		var $am = document.getElementById("auto-minify");
 		var $ol = document.getElementById("original-length");
 		var $rl = document.getElementById("result-length");
+
 		var $delta = document.getElementById("delta");
 		var $display = document.getElementById("display");
 
 		var state = {
 			checked: true,
-			result: ""
+			result: "",
+			keepHangul: false,
+			keepEllipsis: false
 		};
 
 		function setState(next){
@@ -59,6 +81,19 @@
 			console.log(state);
 		};
 
+		function minify(){
+			setState({
+				result: hyeong.minify($hyeong.value, {
+					hangul: {
+						keep: state.keepHangul
+					},
+					ellipsis: {
+						keep: state.keepEllipsis
+					}
+				})
+			});
+		}
+
 		$am.addEventListener("change", function(e){
 			setState({
 				checked: e.target.checked
@@ -67,26 +102,35 @@
 
 		function handler(e){
 			if(state.checked){
-				setState({
-					result: hyeong.minify($hyeong.value)
-				});
+				minify();
 			}
 		}
 
 		$hyeong.addEventListener("change", handler);
 		$hyeong.addEventListener("keyup", handler);
 
-		$minify.addEventListener("click", function(e){
+		$ohk.addEventListener("change", function(e){
 			setState({
-				result: hyeong.minify($hyeong.value)
+				keepHangul: e.target.checked
 			});
+			if(state.checked){
+				minify();
+			}
+		});
+		$oek.addEventListener("change", function(e){
+			setState({
+				keepEllipsis: e.target.checked
+			});
+			if(state.checked){
+				minify();
+			}
 		});
 
-		// update();
-
-		setState({
-			result: hyeong.minify($hyeong.value)
+		$minify.addEventListener("click", function(e){
+			minify();
 		});
+
+		minify();
 
 		</script>
 	</body>

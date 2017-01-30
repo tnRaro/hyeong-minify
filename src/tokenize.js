@@ -58,8 +58,8 @@ export const tokenize = (hyeong) => {
 
 		const token = {
 			command: undefined,
-			inst: undefined,
-			ellipsis: undefined,
+			inst: 0,
+			ellipsis: 0,
 			heart: undefined,
 			input: h
 		};
