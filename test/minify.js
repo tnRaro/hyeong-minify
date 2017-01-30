@@ -39,6 +39,14 @@ assert.equal(minify("형....").result, "형….");
 assert.equal(minify("형.....").result, "형…..");
 assert.equal(minify("혀어어엉......").result, "혀어어엉……");
 
+// 하트 구역
+
+assert.equal(minify("형♥❤💕💖💗💘💙💚💛💜💝♡?!").result, "형♥❤💕💖💗💘💙💚💛💜💝♡?!");
+assert.equal(minify("혀엉♥?ㅁㄴㅇㅁㄴㅇ....♥").result, "혀엉♥?♥");
+assert.equal(minify("형..?....").result, "형..?");
+assert.equal(minify("혀♥엉♥").result, "혀엉♥");
+
+
 // options
 
 // options.hangul
