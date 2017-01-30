@@ -24,7 +24,13 @@ assert.equal(minify("혀엉..♥").result, "혀엉..♥");
 
 assert.equal(minify("형.. 형..\n하앙.").result, "형..형..하앙.");
 
-assert.equal(minify("혀아이ㅎ우ㅎ에오엉..").result, "혀아이우에오엉..");
+assert.equal(minify("혀아이ㅎ우ㅎ에오엉..").result, "혀어어어어어엉..");
+
+assert.equal(minify("흐...읍").result, "흐읍");
+
+assert.equal(minify("혀일....이삼사오육앙♥앗?!읏♡읍...엉").result, "혀어어어어어어어어어어엉");
+
+assert.equal(minify("흐일이삼사 오육앙하앗읏읍엉").result, "흐으으으으으으으으으읏");
 
 // ... to …
 
@@ -32,3 +38,23 @@ assert.equal(minify("형...").result, "형…");
 assert.equal(minify("형....").result, "형….");
 assert.equal(minify("형.....").result, "형…..");
 assert.equal(minify("혀어어엉......").result, "혀어어엉……");
+
+// options
+
+// options.hangul
+
+// options.hangul.keep
+
+assert.equal(minify("혀어.. 너무커엇...♥ 엉..", { hangul: { keep: true } }).result, "혀어.. 너무커엇...♥ 엉..");
+
+// options.ellipsis
+
+// options.ellipsis.keep
+
+assert.equal(minify("혀엉.......", { ellipsis: { keep: true } }).result, "혀엉.......");
+
+// options.ellipsis.type
+
+assert.equal(minify("혀엉.......", { ellipsis: { type: "…" } }).result, "혀엉…….");
+assert.equal(minify("혀엉.......", { ellipsis: { type: "⋯" } }).result, "혀엉⋯⋯.");
+assert.equal(minify("혀엉.......", { ellipsis: { type: "⋮" } }).result, "혀엉⋮⋮.");
