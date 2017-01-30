@@ -27,7 +27,7 @@ const mojiMap = {
 	흑: {
 		first: "흐",
 		middle: "으",
-		last: "흑"
+		last: "윽"
 	},
 };
 

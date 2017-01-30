@@ -32,6 +32,8 @@ const ellipsis = (suffix) => {
 	return i;
 }
 
+const heartWrap = heart => heart.replace(/[^♥❤💕💖💗💘💙💚💛💜💝♡?!]/g, "");
+
 export const tokenize = (hyeong) => {
 	let pos = 0;
 
@@ -79,7 +81,7 @@ export const tokenize = (hyeong) => {
 				const heart = regs.heart().exec(suffix);
 
 				if(heart !== null){
-					token.heart = heart[0].replace(/[^♥❤💕💖💗💘💙💚💛💜💝♡?!]/, "");
+					token.heart = heartWrap(heart[0]);
 
 					suffix = suffix.slice(0, heart.index);
 				}
@@ -98,7 +100,7 @@ export const tokenize = (hyeong) => {
 				const heart = regs.heart().exec(suffix);
 
 				if(heart !== null){
-					token.heart = heart[0].replace(/[^♥❤💕💖💗💘💙💚💛💜💝♡?!]/, "");
+					token.heart = heartWrap(heart[0]);
 
 					suffix = suffix.slice(0, heart.index);
 				}
