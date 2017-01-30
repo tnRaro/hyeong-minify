@@ -21,6 +21,10 @@
 혀어어엉..... 형. 하아앙... 흑. 흣</textarea>
 			</section>
 			<section style="border: 1px solid grey; margin: 10px; padding: 10px; box-sizing: border-box;">
+				<label title="명령어 '형'의 길이를 최적화하는 알고리즘을 사용합니다. &#10; . Only옵션에 따라 결과가 달라질 수 있습니다.&#10;(예 형.......... -> 혀엉.....)">
+					<input type="checkbox" id="option-useHyeongMin" />
+					hyeong-min 사용
+				</label>
 				<label title="명령어 사이에 있는 문자를 유지합니다.&#10;(예 혀♥엉 -> 혀♥엉)">
 					<input type="checkbox" id="option-hangul-keep" />
 					문자 유지
@@ -47,6 +51,7 @@
 		var $hyeong = document.getElementById("hyeong");
 
 		// options
+		var $ohm = document.getElementById("option-useHyeongMin");
 		var $ohk = document.getElementById("option-hangul-keep");
 		var $oek = document.getElementById("option-ellipsis-keep");
 
@@ -59,10 +64,11 @@
 		var $display = document.getElementById("display");
 
 		var state = {
-			checked: true,
+			auto: true,
 			result: "",
 			keepHangul: false,
-			keepEllipsis: false
+			keepEllipsis: false,
+			useHyeongMin: true
 		};
 
 		function setState(next){
@@ -72,7 +78,10 @@
 		};
 
 		function update () {
-			$am.checked = state.checked;
+			$am.checked = state.auto;
+			$ohm.checked = state.useHyeongMin;
+			$ohk.checked = state.keepHangul;
+			$oek.checked = state.keepEllipsis;
 			$display.innerHTML = state.result.result;
 			$ol.innerHTML = state.result.original.length;
 			$rl.innerHTML = state.result.result.length;
@@ -89,19 +98,20 @@
 					},
 					ellipsis: {
 						keep: state.keepEllipsis
-					}
+					},
+					useHyeongMin: state.useHyeongMin
 				})
 			});
 		}
 
 		$am.addEventListener("change", function(e){
 			setState({
-				checked: e.target.checked
+				auto: e.target.checked
 			});
 		});
 
 		function handler(e){
-			if(state.checked){
+			if(state.auto){
 				minify();
 			}
 		}
@@ -109,11 +119,20 @@
 		$hyeong.addEventListener("change", handler);
 		$hyeong.addEventListener("keyup", handler);
 
+
+		$ohm.addEventListener("change", function(e){
+			setState({
+				useHyeongMin: e.target.checked
+			});
+			if(state.auto){
+				minify();
+			}
+		});
 		$ohk.addEventListener("change", function(e){
 			setState({
 				keepHangul: e.target.checked
 			});
-			if(state.checked){
+			if(state.auto){
 				minify();
 			}
 		});
@@ -121,7 +140,7 @@
 			setState({
 				keepEllipsis: e.target.checked
 			});
-			if(state.checked){
+			if(state.auto){
 				minify();
 			}
 		});
