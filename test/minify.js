@@ -66,3 +66,11 @@ assert.equal(minify("혀엉.......", { ellipsis: { keep: true } }).result, "혀�
 assert.equal(minify("혀엉.......", { ellipsis: { type: "…" } }).result, "혀엉…….");
 assert.equal(minify("혀엉.......", { ellipsis: { type: "⋯" } }).result, "혀엉⋯⋯.");
 assert.equal(minify("혀엉.......", { ellipsis: { type: "⋮" } }).result, "혀엉⋮⋮.");
+
+// options.useHyeongMin
+
+assert.equal(minify("형..", { useHyeongMin: true }).result, "형..");
+assert.equal(minify("형........", { useHyeongMin: true }).result, "혀엉….");
+assert.equal(minify("형..........", { useHyeongMin: true }).result, "혀엉…..");
+assert.equal(minify("형....................", { useHyeongMin: true }).result, "혀엉……….");
+assert.equal(minify("형....................", { useHyeongMin: true, ellipsis: { keep: true } }).result, "혀어어엉.....");
