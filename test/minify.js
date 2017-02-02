@@ -55,17 +55,23 @@ assert.equal(minify("혀♥엉♥").result, "혀엉♥");
 
 assert.equal(minify("혀어.. 너무커엇...♥ 엉..", { hangul: { keep: true } }).result, "혀어.. 너무커엇...♥ 엉..");
 
+assert.throws(() => minify("", { hangul: { keep: "type error" }}), Error);
+
 // options.ellipsis
 
 // options.ellipsis.keep
 
 assert.equal(minify("혀엉.......", { ellipsis: { keep: true } }).result, "혀엉.......");
 
+assert.throws(() => minify("", { ellipsis: { keep: "type error" }}), Error);
+
 // options.ellipsis.type
 
 assert.equal(minify("혀엉.......", { ellipsis: { type: "…" } }).result, "혀엉…….");
 assert.equal(minify("혀엉.......", { ellipsis: { type: "⋯" } }).result, "혀엉⋯⋯.");
 assert.equal(minify("혀엉.......", { ellipsis: { type: "⋮" } }).result, "혀엉⋮⋮.");
+
+assert.throws(() => minify("", { ellipsis: { type: "error" }}), Error);
 
 // options.useHyeongMin
 
@@ -74,3 +80,7 @@ assert.equal(minify("형........", { useHyeongMin: true }).result, "혀엉….")
 assert.equal(minify("형..........", { useHyeongMin: true }).result, "혀엉…..");
 assert.equal(minify("형....................", { useHyeongMin: true }).result, "혀엉……….");
 assert.equal(minify("형....................", { useHyeongMin: true, ellipsis: { keep: true } }).result, "혀어어엉.....");
+
+assert.throws(() => minify("", { useHyeongMin: "type error" }), Error);
+
+assert.throws(() => minify("", { hangul: { keep: true }, useHyeongMin: true }), Error);
