@@ -66,6 +66,7 @@
 		var state = {
 			auto: true,
 			result: "",
+			error: "",
 			keepHangul: false,
 			keepEllipsis: false,
 			useHyeongMin: true
@@ -82,26 +83,43 @@
 			$ohm.checked = state.useHyeongMin;
 			$ohk.checked = state.keepHangul;
 			$oek.checked = state.keepEllipsis;
-			$display.innerHTML = state.result.result;
-			$ol.innerHTML = state.result.original.length;
-			$rl.innerHTML = state.result.result.length;
-			$delta.innerHTML = "(" + (state.result.result.length - state.result.original.length) + ")";
+			if(state.error === ""){
+				$display.innerHTML = state.result.result;
+				$ol.innerHTML = state.result.original.length;
+				$rl.innerHTML = state.result.result.length;
+				$delta.innerHTML = "(" + (state.result.result.length - state.result.original.length) + ")";
+			} else {
+				$display.innerHTML = state.error;
+				$ol.innerHTML = "";
+				$rl.innerHTML = "";
+				$delta.innerHTML = "";
+			}
+
 
 			console.log(state);
 		};
 
 		function minify(){
-			setState({
-				result: hyeong.minify($hyeong.value, {
-					hangul: {
-						keep: state.keepHangul
-					},
-					ellipsis: {
-						keep: state.keepEllipsis
-					},
-					useHyeongMin: state.useHyeongMin
-				})
-			});
+			try{
+				setState({
+					result: hyeong.minify($hyeong.value, {
+						hangul: {
+							keep: state.keepHangul
+						},
+						ellipsis: {
+							keep: state.keepEllipsis
+						},
+						useHyeongMin: state.useHyeongMin
+					}),
+					error: ""
+				});
+			} catch(e){
+				console.error(e);
+
+				setState({
+					error: "<span style=\"color: red;\">" + e + "</span>"
+				});
+			}
 		}
 
 		$am.addEventListener("change", function(e){
