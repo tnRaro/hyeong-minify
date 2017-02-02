@@ -113,6 +113,9 @@ export const createGenerator = (userOptions = {}) => {
 	if(typeof options.useHyeongMin !== "boolean"){
 		throw new Error("options.useHyeongMin must be boolean.");
 	}
+	if(options.hangul.keep === true && options.useHyeongMin === true){
+		throw new Error("options.useHyeongMin and options.hangul.keep can not be used at the same time.");
+	}
 
 	return (token) => {
 		if(options.useHyeongMin){
